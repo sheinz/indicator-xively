@@ -2,11 +2,11 @@ from setuptools import setup
 
 setup(
     name = "indicator-xively",
-    version = "0.1",
+    version = "0.1.0",
     packages = ['indicatorxively'],
     scripts = ['indicator-xively'],
 
-    # install_requires = ['docutils>=0.3'],
+    install_requires = ['xively-python>=0.1.0-rc1'],
 
     author = "Yuriy",
     author_email = "",
