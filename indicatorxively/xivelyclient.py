@@ -21,4 +21,4 @@ class XivelyClient(object):
     def data(self):
         feed = self.api.feeds.get(self.settings.xively_feed)
         datastream = feed.datastreams[self.settings.xively_datastream_index]
-        return datastream.current_value
+        return str(round(float(datastream.current_value), 1))

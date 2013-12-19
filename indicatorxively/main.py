@@ -1,3 +1,4 @@
+# coding: utf8
 from settings import Settings
 from appindicator import AppIndicator
 from xivelyclient import XivelyClient
@@ -18,7 +19,7 @@ class Main(object):
 
     def on_timeout(self, user_data):
         self.logger.info("Updating data")
-        self.app_ind.set_data(self.xively.data)
+        self.app_ind.set_data(" ".join((self.xively.data, "°C")))
 
         return True  # to keep calling this function
 

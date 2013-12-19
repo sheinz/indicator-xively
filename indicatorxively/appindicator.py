@@ -18,7 +18,6 @@ class AppIndicator(object):
                       appindicator.IndicatorCategory.APPLICATION_STATUS)
 
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
-        self.ind.set_label("-3.0", "")
 
         menu = Gtk.Menu()
 
