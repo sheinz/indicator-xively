@@ -13,7 +13,7 @@ setup(
     },
 
     author="Yuriy",
-    author_email="",
+    author_email="email@email.com",
     description="This is a simple indicator application for xively service.",
     license="MIT",
     keywords="xively indicator",

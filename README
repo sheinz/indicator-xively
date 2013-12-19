@@ -1,0 +1,9 @@
+indicator-xively README
+
+* Description
+
+indicator-xively is a simple application that shows a value of your xively data
+in the Ubuntu indication area (system tray).
+
+
+
