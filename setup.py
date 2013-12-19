@@ -1,17 +1,21 @@
 from setuptools import setup
 
 setup(
-    name = "indicator-xively",
-    version = "0.1.0",
-    packages = ['indicatorxively'],
-    scripts = ['indicator-xively'],
+    name="indicator-xively",
+    version="0.1.0",
+    packages=['indicatorxively'],
+    scripts=['indicator-xively'],
 
-    install_requires = ['xively-python>=0.1.0-rc1'],
+    install_requires=['xively-python>=0.1.0-rc1'],
 
-    author = "Yuriy",
-    author_email = "",
-    description = "This is a simple indicator application for xively service.",
-    license = "MIT",
-    keywords = "xively indicator",
-    url = "http://github.com/sheinz",
+    package_data={
+       'indicatorxively': ['temp-icon.png'],
+    },
+
+    author="Yuriy",
+    author_email="",
+    description="This is a simple indicator application for xively service.",
+    license="MIT",
+    keywords="xively indicator",
+    url="http://github.com/sheinz",
 )
