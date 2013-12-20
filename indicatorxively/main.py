@@ -2,9 +2,7 @@
 from settings import Settings
 from appindicator import AppIndicator
 from xivelyclient import XivelyClient
-
 from gi.repository import Gtk
-from gi.repository import GObject
 import logging
 
 
@@ -14,19 +12,13 @@ class Main(object):
         logging.basicConfig(level=logging.INFO)
 
         self.settings = Settings()
-        self.xively = XivelyClient(self.settings)
+        self.xively = XivelyClient(self.settings, self.on_data_update)
         self.app_ind = AppIndicator(self.settings)
 
-    def on_timeout(self, user_data):
-        self.logger.info("Updating data")
-        self.app_ind.set_data(" ".join((self.xively.data, "°C")))
-
-        return True  # to keep calling this function
+    def on_data_update(self, data):
+        self.app_ind.set_data(" ".join((data, "°C")))
 
     def run(self):
-        self.timer = GObject.timeout_add(self.settings.update_interval,
-                                         self.on_timeout,
-                                         None)
-        self.on_timeout(None)  # Update imediately after start
-
+        self.xively.update()
         Gtk.main()
+

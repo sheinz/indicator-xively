@@ -10,8 +10,8 @@ class Settings(object):
         return 1226691453
 
     @property
-    def xively_datastream_index(self):
-        return 2
+    def xively_datastream(self):
+        return 'outdoor'
 
     @property
     def update_interval(self):

@@ -6,7 +6,7 @@ setup(
     packages=['indicatorxively'],
     scripts=['indicator-xively'],
 
-    install_requires=['xively-python>=0.1.0-rc1'],
+    install_requires=['requests>=2.0.1'],
 
     package_data={
        'indicatorxively': ['temp-icon.png'],
