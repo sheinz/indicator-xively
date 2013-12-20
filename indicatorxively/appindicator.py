@@ -7,7 +7,7 @@ import os
 
 class AppIndicator(object):
 
-    def __init__(self, settings):
+    def __init__(self, settings, menu_list):
         self.settings = settings
         self.logger = logging.getLogger(__name__)
         icon_path = os.path.join(os.path.dirname(__file__), 'temp-icon.png')
@@ -21,10 +21,11 @@ class AppIndicator(object):
 
         menu = Gtk.Menu()
 
-        menu_test = Gtk.MenuItem("_Test", use_underline=True)
-        menu_test.connect("activate", self.on_test_click)
-        menu_test.show()
-        menu.append(menu_test)
+        for item in menu_list:
+            menu_item = Gtk.MenuItem(item['text'], use_underline=True)
+            menu_item.connect("activate", item['callback'])
+            menu_item.show()
+            menu.append(menu_item)
 
         menu_quit = Gtk.MenuItem("_Quit", use_underline=True)
         menu_quit.connect("activate", self.on_quit_click)
