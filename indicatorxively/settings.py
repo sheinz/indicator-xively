@@ -1,13 +1,16 @@
 from gi.repository import Gtk
 import logging
+import json
+from os import path
 
 
 class Settings(object):
     def __init__(self):
-        self._xively_key = "OEJA1v2xXYRpKxC2fy3dfFwwDEKYU4TdAyn2gQygwD60TMrG"
-        self._xively_feed = 1226691453
-        self._xively_datastream = 'outdoor'
-        self._update_interval = 20000
+        self.logger = logging.getLogger(__name__)
+        self._xively_key = ""
+        self._xively_feed = 0
+        self._xively_datastream = ''
+        self._update_interval = 30
 
     @property
     def xively_key(self):
@@ -23,7 +26,7 @@ class Settings(object):
 
     @xively_feed.setter
     def xively_feed(self, value):
-        self._xively_feed = value
+        self._xively_feed = int(value)
 
     @property
     def xively_datastream(self):
@@ -39,15 +42,52 @@ class Settings(object):
 
     @update_interval.setter
     def update_interval(self, value):
-        self._update_interval = value
+        self._update_interval = int(value)
+
+    def _get_config_path(self, config_file_path):
+        if not config_file_path:
+            home = path.expanduser('~')
+            config_file_path = path.join(home, '.indicatorxively')
+            self.logger.info("Using default config file: %s", config_file_path)
+
+        return config_file_path
+
+    def load(self, config_file_path=None):
+        config_file_path = self._get_config_path(config_file_path)
+
+        with open(config_file_path, 'r') as f:
+            data = json.load(f)
+
+        self.logger.info("Loading configuration: %s", str(data))
+        self._xively_key = data['xively']['key']
+        self._xively_feed = data['xively']['feed']
+        self._xively_datastream = data['xively']['datastream']
+        self._update_interval = data['general']['update interval']
+
+    def store(self, config_file_path=None):
+        config_file_path = self._get_config_path(config_file_path)
+        data = {'xively': {
+                    'key': self._xively_key,
+                    'feed': self._xively_feed,
+                    'datastream': self._xively_datastream
+                    },
+                'general': {
+                    'icon': '',
+                    'update interval': 30
+                    }
+                }
+        self.logger.info("Storing configuration: %s", data)
+        with open(config_file_path, 'w') as f:
+            json.dump(data, f, indent=4)
 
 
 class SettingsWindow(Gtk.Window):
-    def __init__(self, settings):
+    def __init__(self, settings, result_callback):
         Gtk.Window.__init__(self, title="Indicator Xively settings",
                             modal=True)
 
         self.settings = settings
+        self.result_callback = result_callback
         self.logger = logging.getLogger(__name__)
 
         grid = Gtk.Grid(row_spacing=5)
@@ -96,6 +136,7 @@ class SettingsWindow(Gtk.Window):
         self.settings.update_interval = self.entry_update_interval.get_text()
 
         self.destroy()
+        self.result_callback(True)
 
     def _on_cancel_clicked(self, widget):
         self.logger.info("Discarding changes")

@@ -25,7 +25,7 @@ class XivelyClient(object):
         self.settings = settings
         self.on_data_update = on_data_update
 
-        self.timer = GObject.timeout_add(self.settings.update_interval,
+        self.timer = GObject.timeout_add(1000 * self.settings.update_interval,
                                          self._on_timeout,
                                          None)
 
